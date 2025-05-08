@@ -7,10 +7,10 @@ import estalactitaImg from "../assets/estalactita.png";
 const GRID_SIZE = 10;
 
 const imageMap: Record<string, string> = {
-  plataforma: plataformaImg,
-  plataforma_movil: plataformaMovilImg,
-  cafe: cafeImg,
-  estalactita: estalactitaImg,
+  platform: plataformaImg,
+  mobile_platform: plataformaMovilImg,
+  coffee: cafeImg,
+  stalactite: estalactitaImg,
 };
 
 interface DraggableBoxProps {

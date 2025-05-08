@@ -473,8 +473,8 @@ function App() {
                 const extraData =
                   shape.type === "mobile_platform"
                     ? {
-                        direccion: shape.direccion ?? 1,
-                        velocidad: shape.velocidad ?? 2,
+                        direction: shape.direccion ?? 1,
+                        speed: shape.velocidad ?? 2,
                       }
                     : {};
 
