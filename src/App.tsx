@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { toPng } from "html-to-image";
 import DraggableBox from "./components/DraggableBox";
 
 type ShapeType = "platform" | "mobile_platform" | "coffee" | "stalactite";
@@ -50,6 +51,21 @@ function App() {
     setPositions((prev) => ({ ...prev, [id]: pos }));
   };
 
+  const handleExportAsImage = () => {
+    if (!areaRef.current) return;
+
+    toPng(areaRef.current)
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = "area_interactiva.png";
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.error("Error al exportar imagen:", err);
+      });
+  };
+
   const addShape = () => {
     setShapes((prev) => [
       ...prev,
@@ -82,7 +98,7 @@ function App() {
           paddingBottom: "1rem",
           display: "flex",
           flexDirection: "row",
-          gap: "5rem"
+          gap: "5rem",
         }}
       >
         <div>
@@ -280,7 +296,7 @@ function App() {
             style={{
               lineHeight: 1.6,
               maxHeight: "25rem",
-              overflow: "auto",   
+              overflow: "auto",
             }}
           >
             <h2
@@ -299,16 +315,13 @@ function App() {
             </p>
 
             <p>
-              Las medidas que estan por defecto hacen referencia al tamño de los objetos en Godot. estas medidas estan en centimetros.
+              Las medidas que estan por defecto hacen referencia al tamño de los
+              objetos en Godot. estas medidas estan en centimetros.
             </p>
 
-            <p>
-              Cada cuadrito en el grid mide 50cm o 0.5m.
-            </p>
+            <p>Cada cuadrito en el grid mide 50cm o 0.5m.</p>
 
-            <h3 style={{ marginTop: "1rem" }}>
-              📏 Parámetros generales
-            </h3>
+            <h3 style={{ marginTop: "1rem" }}>📏 Parámetros generales</h3>
             <ul style={{ paddingLeft: "1.2rem" }}>
               <li>
                 <strong>Ancho / Alto:</strong> Define el tamaño del área de
@@ -339,19 +352,19 @@ function App() {
               </li>
             </ul>
 
-            <h3 style={{ marginTop: "1rem" }}>
-              ⚙️ Opciones específicas
-            </h3>
+            <h3 style={{ marginTop: "1rem" }}>⚙️ Opciones específicas</h3>
             <ul style={{ paddingLeft: "1.2rem" }}>
               <li>
                 <strong>Dirección (solo para plataforma movil):</strong> Indica
                 hacia dónde se moverá:
                 <ul style={{ paddingLeft: "1rem" }}>
                   <li>
-                    <code>-1</code>: Desde el punto en el que pone empiza su movimiento hacia la izquierda
+                    <code>-1</code>: Desde el punto en el que pone empiza su
+                    movimiento hacia la izquierda
                   </li>
                   <li>
-                    <code>1</code>: Desde el punto en el que pone empiza su movimiento hacia la derecha
+                    <code>1</code>: Desde el punto en el que pone empiza su
+                    movimiento hacia la derecha
                   </li>
                 </ul>
               </li>
@@ -361,9 +374,7 @@ function App() {
               </li>
             </ul>
 
-            <h3 style={{ marginTop: "1rem" }}>
-              📝 Resultado exportado
-            </h3>
+            <h3 style={{ marginTop: "1rem" }}>📝 Resultado exportado</h3>
             <p>
               La sección de "Posiciones de los objetos" muestra un objeto JSON
               organizado por tipo de figura. Cada figura tiene sus coordenadas:
@@ -428,6 +439,21 @@ function App() {
           ))}
         </div>
       </div>
+
+      <button
+        onClick={handleExportAsImage}
+        style={{
+          padding: "8px 16px",
+          background: "#3498db",
+          color: "white",
+          border: "none",
+          borderRadius: 4,
+          cursor: "pointer",
+          marginBottom: "1rem",
+        }}
+      >
+        Exportar como Imagen
+      </button>
 
       <h3 style={{ marginTop: "2rem", fontSize: "1.25rem", fontWeight: 600 }}>
         Posiciones de los objetos
